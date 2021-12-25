@@ -35,6 +35,40 @@ int main()
     sendto(Socket, "Hello Server", sizeof("Hello Server"), 0, (sockaddr *)&ServerAddress, sizeof(ServerAddress));
     socklen_t sizeofServerAddress;
     recvfrom(Socket, Buffer, sizeof(Buffer), 0, (sockaddr *)&ServerAddress, &sizeofServerAddress);
-    cout << "Connection Established " << Buffer << endl;
+    cout << "Connection Established " << endl;
+
+    memset(Buffer, 0, sizeof(Buffer));
+    // receive number 1
+    recvfrom(Socket, Buffer, sizeof(Buffer), 0, (sockaddr *)&ServerAddress, &sizeofServerAddress);
+    cout << Buffer << endl;
+    // sending num 1
+    char num;
+    cin >> num;
+    sendto(Socket, &num, sizeof(num), 0, (sockaddr *)&ServerAddress, sizeof(ServerAddress));
+    memset(Buffer, 0, sizeof(Buffer));
+    // receive number 2
+    recvfrom(Socket, Buffer, sizeof(Buffer), 0, (sockaddr *)&ServerAddress, &sizeofServerAddress);
+    cout << Buffer << endl;
+    // sending num 2
+    cin >> num;
+    sendto(Socket, &num, sizeof(num), 0, (sockaddr *)&ServerAddress, sizeof(ServerAddress));
+
+    memset(Buffer, 0, sizeof(Buffer));
+    // receive expression
+    string s = "Please Enter Operation: \n1. Addition \n2. Subtraction \n3. Multiplication \n4. Division \n5. Exit";
+    cout << s << endl;
+    cin >> num;
+    if (num == '5')
+    {
+        exit;
+    }
+    // sending expression
+    sendto(Socket, &num, sizeof(num), 0, (sockaddr *)&ServerAddress, sizeof(ServerAddress));
+    // recv Result
+    cout << "Result: ";
+    memset(Buffer, 0, sizeof(Buffer));
+    recvfrom(Socket, Buffer, sizeof(Buffer), 0, (sockaddr *)&ServerAddress, &sizeofServerAddress);
+    cout << Buffer << endl;
+
     return 0;
 }
